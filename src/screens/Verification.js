@@ -2,17 +2,20 @@ import { StyleSheet, Text, View, Image, TextInput } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { button1 } from '../common/button'
 import { bwmessage, errormessage, formgroup, head1, head2, input, label, link, link2 } from '../common/formcss'
+import { useRoute } from '@react-navigation/native';
 
-const Verification = ({ navigation, route }) => {
-    const { userdata } = route.params;
-
+const Verification = ({ navigation }) => {
+      const route = useRoute();
+    const {userData } = route.params;
     const [errormsg, setErrormsg] = useState(null);
     const [userCode, setUserCode] = useState('XXXX');
     const [actualCode, setActualCode] = useState(null);
 
     useEffect(() => {
-        setActualCode(userdata[0]?.VerificationCode);
-    }, [])
+         
+          setActualCode(userData[0]?.Verificationcode);
+       
+      }, []);
 
     const Sendtobackend = () => {
         // console.log(userCode);
@@ -26,14 +29,14 @@ const Verification = ({ navigation, route }) => {
         else if (userCode == actualCode) {
             // console.log('correct code');
             const fdata = {
-                email: userdata[0]?.email,
-                password: userdata[0]?.password,
-                name: userdata[0]?.name,
-                address: userdata[0]?.address,
-                dob: userdata[0]?.dob,
+                email: userData[0]?.email,
+                password: userData[0]?.password,
+                name:userData[0]?.name,
+                address: userData[0]?.address,
+                dob: userData[0]?.dob,
             }
 
-            fetch('http://10.0.2.2.:3000/signup', {
+            fetch('http://192.168.0.100:3000/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -42,7 +45,7 @@ const Verification = ({ navigation, route }) => {
             })
                 .then(res => res.json())
                 .then(data => {
-                    // console.log(data);
+                     console.log(data);
                     if (data.message === 'User Registered Successfully') {
                         alert(data.message);
                         navigation.navigate('login')
@@ -53,7 +56,10 @@ const Verification = ({ navigation, route }) => {
                     }
                 })
         }
-        else if (userCode != actualCode) {
+
+        else if(userCode != actualCode) {
+            console.log(userCode);
+            console.log(actualCode);
             setErrormsg('Incorrect code');
             return;
         }

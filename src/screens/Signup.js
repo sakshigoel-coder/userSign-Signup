@@ -35,7 +35,7 @@ const Signup = ({
                 return;
             }
             else {
-                fetch('http://192.168.29.102:3000/verify', {
+                fetch('http://192.168.0.100:3000/verify', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -48,11 +48,12 @@ const Signup = ({
                                 // alert('Invalid Credentials')
                                 setErrormsg('Invalid Credentials')
                             }
-                            else if (data) {
-                                // console.log(data.udata);
+                            else {
+                                console.log(data.udata);
                                 Alert.alert(data.message);
-                                navigation.navigate('verification', { userdata: data.udata })
+                                navigation.navigate('verification', { userData:data.udata });
                             }
+                          
                     }
                 )
             }

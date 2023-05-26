@@ -18,7 +18,7 @@ const Login = ({ navigation }) => {
             return;
         }
         else {
-            fetch('http://192.168.29.102:3000/signin', {
+            fetch('http://192.168.0.100:3000/signin', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
